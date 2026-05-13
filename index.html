@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enneagram Kişilik Testi — Doç. Dr. Ömer Yanartaş</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p1: #2a1250;
+  --p2: #4a2080;
+  --p3: #7040b0;
+  --p4: #9b6fd4;
+  --p5: #c9a8f0;
+  --p6: #e8d8fa;
+  --p7: #f3ecfd;
+  --gold: #c9a227;
+  --gold2: #e0b42e;
+  --white: #fff;
+  --text1: #1a0f2e;
+  --text2: #3d2060;
+  --text3: #7a5fa0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--p1);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  background: var(--p1);
+  padding: 56px 24px 0;
+  text-align: center;
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(ellipse, rgba(154,111,212,0.25) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--p4);
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 7vw, 54px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.hero-title span { color: var(--p5); }
+
+.magnifier-wrap {
+  position: relative;
+  width: 180px;
+  height: 200px;
+  margin: 20px auto 0;
+  flex-shrink: 0;
+}
+
+.magnifier-wrap svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 20px 48px rgba(0,0,0,0.55)) drop-shadow(0 0 30px rgba(180,140,255,0.3));
+  animation: floatMag 4s ease-in-out infinite;
+}
+
+@keyframes floatMag {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%       { transform: translateY(-12px) rotate(-5deg); }
+}
+
+/* Lens light sweep */
+@keyframes lensSheen {
+  0%   { opacity: 0; transform: translate(-70px, -70px) rotate(-30deg); }
+  20%  { opacity: 1; }
+  60%  { opacity: 0.6; }
+  100% { opacity: 0; transform: translate(60px, 60px) rotate(-30deg); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50%       { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rimGlow {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.65; }
+}
+
+.lens-sheen { animation: lensSheen 3.5s ease-in-out infinite; }
+.lens-sheen2 { animation: lensSheen 3.5s ease-in-out infinite 1.75s; }
+.sparkle1 { animation: sparkle 2.2s ease-in-out infinite 0.3s; }
+.sparkle2 { animation: sparkle 2.2s ease-in-out infinite 1.1s; }
+.sparkle3 { animation: sparkle 2.2s ease-in-out infinite 1.8s; }
+.rim-glow  { animation: rimGlow 2s ease-in-out infinite; }
+
+.wave { width: 100%; overflow: hidden; line-height: 0; margin-top: -2px; }
+.wave svg { display: block; width: 100%; }
+
+/* Content */
+.content { background: var(--p7); min-height: 60vh; padding: 0 16px 60px; }
+.inner { max-width: 680px; margin: 0 auto; padding-top: 36px; }
+
+.intro-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 36px;
+  text-align: center;
+  border: 1px solid rgba(107,63,160,0.12);
+  box-shadow: 0 4px 20px rgba(61,31,110,0.08);
+}
+
+.intro-card p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(19px, 3vw, 24px);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--p1);
+  letter-spacing: 0.2px;
+}
+
+/* Progress */
+.progress-wrap { margin-bottom: 28px; }
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.progress-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--p3);
+}
+
+.progress-count {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--p2);
+}
+
+.progress-track {
+  height: 3px;
+  background: rgba(107,63,160,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--p2), var(--p4));
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Question */
+.question-card {
+  background: var(--white);
+  border: 1px solid rgba(107,63,160,0.1);
+  border-radius: 16px;
+  padding: 32px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(61,31,110,0.07);
+  animation: fadeUp 0.32s ease;
+}
+
+.question-card::before {
+  content: '';
+  display: block;
+  width: 26px;
+  height: 26px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%236b3fa0' stroke-width='2.2'/%3E%3Cline x1='17' y1='17' x2='25' y2='25' stroke='%236b3fa0' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  margin-bottom: 14px;
+  opacity: 0.45;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.question-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 2.5vw, 19px);
+  font-weight: 600;
+  color: var(--p1);
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+
+.options { display: flex; flex-direction: column; gap: 9px; }
+
+.opt-btn {
+  background: var(--p7);
+  border: 1.5px solid rgba(107,63,160,0.15);
+  border-radius: 10px;
+  padding: 13px 16px 13px 44px;
+  text-align: left;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--text2);
+  cursor: pointer;
+  line-height: 1.5;
+  transition: all 0.16s ease;
+  position: relative;
+  width: 100%;
+}
+
+.opt-btn::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(107,63,160,0.3);
+  transition: all 0.16s ease;
+}
+
+.opt-btn:hover { border-color: var(--p3); background: var(--p6); color: var(--text1); }
+
+.opt-btn.selected { background: var(--p1); border-color: var(--p1); color: var(--white); }
+.opt-btn.selected::before { background: var(--white); border-color: var(--white); box-shadow: inset 0 0 0 3px var(--p1); }
+
+/* Nav */
+.nav-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+.btn-nav {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-back { background: transparent; border: 1.5px solid rgba(107,63,160,0.25); color: var(--text3); }
+.btn-back:hover:not(:disabled) { border-color: var(--p3); color: var(--p2); }
+.btn-back:disabled { opacity: 0.3; cursor: default; }
+
+.btn-next { background: var(--p1); color: var(--white); min-width: 140px; text-align: center; flex-shrink: 0; }
+.btn-next:hover:not(:disabled) { background: var(--p2); }
+.btn-next:disabled { background: rgba(74,32,128,0.3); cursor: default; }
+
+/* Result */
+#resultSection { display: none; }
+
+.result-hero {
+  background: var(--p1);
+  border-radius: 16px;
+  padding: 36px 28px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.4s ease;
+}
+
+.result-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(ellipse, rgba(154,111,212,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.result-magnifier { width: 44px; height: 44px; margin: 0 auto 14px; opacity: 0.7; }
+
+.result-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--p4);
+  margin-bottom: 10px;
+}
+
+.result-tip-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.result-desc {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--p5);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.scores-card {
+  background: var(--white);
+  border: 1px solid rgba(107,63,160,0.1);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(61,31,110,0.07);
+  animation: fadeUp 0.5s ease;
+}
+
+.scores-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--p1);
+  margin-bottom: 18px;
+}
+
+.score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.score-label { font-size: 12px; font-weight: 500; color: var(--text2); width: 44px; flex-shrink: 0; }
+.score-bar-bg { flex: 1; height: 6px; background: var(--p6); border-radius: 3px; overflow: hidden; min-width: 0; }
+.score-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.score-num { font-size: 12px; color: var(--text3); width: 16px; text-align: right; flex-shrink: 0; }
+
+.disclaimer {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text3);
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 0 4px;
+  animation: fadeUp 0.55s ease;
+}
+
+.amazon-cta {
+  background: var(--p1);
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.6s ease;
+}
+
+.amazon-cta::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; left: -30px;
+  width: 160px; height: 160px;
+  background: radial-gradient(ellipse, rgba(154,111,212,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.amazon-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--p4); margin-bottom: 10px; }
+.amazon-title { font-family: 'Playfair Display', serif; font-size: clamp(18px, 3.5vw, 24px); font-weight: 700; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
+.amazon-sub { font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--p5); margin-bottom: 22px; }
+
+.btn-amazon {
+  display: inline-block;
+  background: var(--gold);
+  color: #1a0f00;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 13px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.16s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-amazon:hover { background: var(--gold2); transform: translateY(-1px); }
+
+.btn-restart {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid rgba(107,63,160,0.25);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.16s ease;
+  margin-bottom: 24px;
+  animation: fadeUp 0.65s ease;
+}
+
+.btn-restart:hover { border-color: var(--p3); color: var(--p2); }
+
+.site-footer {
+  text-align: center;
+  padding: 24px 0 0;
+  border-top: 1px solid rgba(107,63,160,0.15);
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.7;
+}
+
+.site-footer a { color: var(--p3); text-decoration: none; }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .hero { padding: 40px 16px 0; min-height: 260px; }
+  .magnifier-wrap { width: 130px; height: 145px; margin-top: 10px; }
+  .question-card { padding: 22px 16px; }
+  .intro-card { padding: 20px 16px; }
+  .scores-card { padding: 18px 16px; }
+  .amazon-cta { padding: 24px 16px; }
+  .result-hero { padding: 28px 16px; }
+  .btn-next { min-width: 110px; padding: 12px 16px; }
+  .btn-back { padding: 12px 16px; }
+  .opt-btn { font-size: 14px; }
+}
+
+@media (max-width: 360px) {
+  .hero-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Kişilik Keşif Testi</div>
+  <h1 class="hero-title">Enneagram<br><span>Kişilik Testi</span></h1>
+
+  <div class="magnifier-wrap">
+    <svg viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Radial glass gradient -->
+        <radialGradient id="glassGrad" cx="40%" cy="35%" r="60%">
+          <stop offset="0%" stop-color="rgba(220,190,255,0.28)"/>
+          <stop offset="50%" stop-color="rgba(140,90,210,0.18)"/>
+          <stop offset="100%" stop-color="rgba(60,20,120,0.35)"/>
+        </radialGradient>
+        <!-- Clip to lens circle -->
+        <clipPath id="lensClip">
+          <circle cx="80" cy="82" r="52"/>
+        </clipPath>
+        <!-- Sheen gradient -->
+        <linearGradient id="sheenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+          <stop offset="40%" stop-color="rgba(255,255,255,0.55)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+        <!-- Rim glow gradient -->
+        <radialGradient id="rimGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="80%" stop-color="rgba(200,168,255,0)"/>
+          <stop offset="100%" stop-color="rgba(200,168,255,0.5)"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Ground shadow -->
+      <ellipse cx="107" cy="187" rx="30" ry="8" fill="rgba(0,0,0,0.22)"/>
+
+      <!-- Handle dark base -->
+      <rect x="96" y="118" width="22" height="72" rx="11" fill="#3d2510" transform="rotate(35 107 154)"/>
+      <!-- Handle wood -->
+      <rect x="98" y="120" width="18" height="68" rx="9" fill="#7a5030" transform="rotate(35 107 154)"/>
+      <!-- Handle grain lines -->
+      <rect x="101" y="123" width="2.5" height="58" rx="1.2" fill="rgba(255,255,255,0.08)" transform="rotate(35 107 154)"/>
+      <rect x="105" y="124" width="1.5" height="52" rx="0.7" fill="rgba(255,255,255,0.06)" transform="rotate(35 107 154)"/>
+      <!-- Handle shine -->
+      <rect x="100" y="122" width="5" height="32" rx="2.5" fill="rgba(255,255,255,0.18)" transform="rotate(35 107 154)"/>
+      <!-- Handle collar -->
+      <rect x="96" y="116" width="22" height="10" rx="4" fill="#707080" transform="rotate(35 107 154)"/>
+      <rect x="97" y="117" width="20" height="8" rx="3" fill="#9090a8" transform="rotate(35 107 154)"/>
+
+      <!-- Outer ring (metal) -->
+      <circle cx="80" cy="82" r="60" fill="none" stroke="url(#rimGrad)" stroke-width="14" class="rim-glow"/>
+      <circle cx="80" cy="82" r="60" fill="none" stroke="#808090" stroke-width="10"/>
+      <!-- Metal ring highlight arc -->
+      <circle cx="80" cy="82" r="60" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3" stroke-dasharray="55 320" stroke-dashoffset="-20"/>
+      <!-- Metal ring shadow arc -->
+      <circle cx="80" cy="82" r="60" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="3" stroke-dasharray="60 310" stroke-dashoffset="190"/>
+
+      <!-- Glass fill -->
+      <circle cx="80" cy="82" r="52" fill="url(#glassGrad)"/>
+
+      <!-- Enneagram inside lens -->
+      <g transform="translate(80,82)" clip-path="url(#lensClip)">
+        <circle r="38" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <!-- 9 nodes -->
+        <circle cx="0" cy="-38" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="22.2" cy="-30.8" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="36.1" cy="-11.7" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="36.1" cy="11.7" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="22.2" cy="30.8" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="0" cy="38" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="-22.2" cy="30.8" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="-36.1" cy="11.7" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="-36.1" cy="-11.7" r="2.8" fill="rgba(255,255,255,0.75)"/>
+        <!-- Triangle -->
+        <polygon points="0,-38 22.2,30.8 -22.2,30.8" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>
+        <!-- Hexagram -->
+        <polyline points="22.2,-30.8 36.1,11.7 -22.2,30.8 -36.1,-11.7 22.2,-30.8" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+        <line x1="36.1" y1="-11.7" x2="-36.1" y2="11.7" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+      </g>
+
+      <!-- Light sweep sheen — animated beam across lens -->
+      <g clip-path="url(#lensClip)">
+        <rect class="lens-sheen" x="28" y="30" width="28" height="110" rx="14" fill="url(#sheenGrad)" opacity="0"/>
+        <rect class="lens-sheen2" x="54" y="30" width="14" height="110" rx="7" fill="url(#sheenGrad)" opacity="0"/>
+      </g>
+
+      <!-- Static primary glare spot (top-left) -->
+      <ellipse cx="60" cy="56" rx="18" ry="11" fill="rgba(255,255,255,0.13)" transform="rotate(-30 60 56)"/>
+      <ellipse cx="56" cy="52" rx="7" ry="4" fill="rgba(255,255,255,0.22)" transform="rotate(-30 56 52)"/>
+      <!-- Tiny bright dot glare -->
+      <circle cx="53" cy="49" r="3" fill="rgba(255,255,255,0.45)"/>
+      <circle cx="54" cy="50" r="1.5" fill="rgba(255,255,255,0.7)"/>
+
+      <!-- Sparkle stars at rim (light scattering) -->
+      <g class="sparkle1">
+        <line x1="136" y1="36" x2="136" y2="44" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="132" y1="40" x2="140" y2="40" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="133" y1="37" x2="139" y2="43" stroke="rgba(255,255,255,0.5)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="139" y1="37" x2="133" y2="43" stroke="rgba(255,255,255,0.5)" stroke-width="1" stroke-linecap="round"/>
+      </g>
+      <g class="sparkle2">
+        <line x1="22" y1="54" x2="22" y2="60" stroke="rgba(200,168,255,0.7)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="19" y1="57" x2="25" y2="57" stroke="rgba(200,168,255,0.7)" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+      <g class="sparkle3">
+        <line x1="100" y1="22" x2="100" y2="28" stroke="rgba(255,255,255,0.6)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="97" y1="25" x2="103" y2="25" stroke="rgba(255,255,255,0.6)" stroke-width="1" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="wave">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none" height="60">
+    <path d="M0,0 C300,60 900,60 1200,0 L1200,60 L0,60 Z" fill="#f3ecfd"/>
+  </svg>
+</div>
+
+<div class="content">
+<div class="inner">
+
+  <div class="intro-card">
+    <p>20 soruyu içtenlikle yanıtlayarak baskın kişilik yapınızı keşfedebilirsiniz. Doğru ya da yanlış cevap yoktur. Olduğunuz gibi yanıtlayın.</p>
+  </div>
+
+  <section id="quizSection">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">İlerleme</span>
+        <span class="progress-count" id="qCounter">1 / 20</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:5%"></div>
+      </div>
+    </div>
+
+    <div class="question-card" id="questionCard">
+      <div class="question-text" id="qText"></div>
+      <div class="options" id="optionsWrap"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav btn-back" id="prevBtn" disabled onclick="prevQ()">← Geri</button>
+      <button class="btn-nav btn-next" id="nextBtn" disabled onclick="nextQ()">Devam →</button>
+    </div>
+  </section>
+
+  <section id="resultSection">
+    <div class="result-hero">
+      <svg class="result-magnifier" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="14" fill="none" stroke="rgba(201,168,240,0.8)" stroke-width="3"/>
+        <line x1="30" y1="30" x2="43" y2="43" stroke="rgba(201,168,240,0.8)" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="9" fill="rgba(154,111,212,0.15)"/>
+      </svg>
+      <div class="result-eyebrow">Baskın Tipiniz</div>
+      <div class="result-tip-name" id="resultTipName"></div>
+      <p class="result-desc" id="resultDesc"></p>
+    </div>
+
+    <div class="scores-card">
+      <div class="scores-title">Tüm tiplerin puan dağılımı</div>
+      <div id="scoresBars"></div>
+    </div>
+
+    <p class="disclaimer">Bu test temel yönelimlerinize dair bir fikir verir. Kesin tip tayini için kanat etkisi, alt tipler ve stres/rahat hattı özellikleri de değerlendirilmelidir.</p>
+
+    <div class="amazon-cta">
+      <div class="amazon-eyebrow">Daha fazlası için</div>
+      <div class="amazon-title">Bilimsel Temelleriyle<br>Enneagram Kişilik Teorisi</div>
+      <p class="amazon-sub">Psikiyatrist gözünden enneagram kişilik teorisiyle olgulara bakış</p>
+      <a class="btn-amazon" href="https://www.amazon.com.tr/Bilimsel-Temelleriyle-Enneagram-Ki%C5%9Filik-Teorisi/dp/6255634671" target="_blank" rel="noopener">Amazon'da İncele →</a>
+    </div>
+
+    <button class="btn-restart" onclick="restart()">↺ Testi tekrar yap</button>
+  </section>
+
+  <footer class="site-footer">
+    <p>© Okuyan Us Yayınevi &nbsp;·&nbsp; <a href="https://www.okuyanus.com.tr" target="_blank">okuyanus.com.tr</a></p>
+  </footer>
+
+</div>
+</div>
+
+<script>
+const questions = [
+  { text: "Bir arkadaşınız zor bir dönemden geçiyor. İlk tepkiniz ne olur?", opts: [["Somut bir çözüm önerisi getiririm, ne yapması gerektiğini adım adım anlatırım.", 1],["Yanında olmak için zaman ayırırım; ne hissettiklerini dinlemek isterim.", 2],["Durumu analiz ederim; en verimli çözüme odaklanmasını öneririm.", 3],["Benzer duygusal deneyimleri olduğunu hissederse derin bir anlayışla yaklaşırım.", 4]] },
+  { text: "Bir proje teslim günü yaklaşıyor ama bazı detaylar hâlâ eksik. Ne yaparsınız?", opts: [["Teslim etmeden önce mümkün olan en iyi hale getirmek için fazla mesai yaparım.", 1],["Ekibin moralini yüksek tutmaya çalışırım; birlikte üstesinden geliriz.", 2],["Öncelikleri hızla belirler, en kritik kısımları tamamlayıp teslim ederim.", 3],["Geri çekilip tek başıma odaklanırım; derin konsantrasyona ihtiyacım var.", 5]] },
+  { text: "Bir toplantıda farklı görüşler çatışıyor. Siz ne yaparsınız?", opts: [["Herkesi dinleyip ortak bir zemin bulmaya çalışırım; gerilimi azaltmak isterim.", 9],["Savunduğum görüşü net ve doğrudan ifade ederim, gerekirse sert de olsa.", 8],["Olası riskleri ve olumsuz senaryoları dile getiririm; uyarıları görmezden gelemem.", 6],["Ortamı hafifletmeye çalışırım; farklı fikirlerde ilginç bir şey bulurum.", 7]] },
+  { text: "Boş zamanlarınızda en çok ne yapmaktan keyif alırsınız?", opts: [["Yeni bir şeyler öğrenmek; kitap okumak ya da araştırma yapmak.", 5],["Yeni yerler keşfetmek, farklı deneyimler peşinde koşmak.", 7],["Yakın çevremle anlamlı zaman geçirmek, onlara destek olmak.", 2],["Sanatsal ya da yaratıcı bir şeyle uğraşmak; kendimi ifade etmek.", 4]] },
+  { text: "Kendinizi en iyi tanımlayan cümle hangisidir?", opts: [["Doğru olan şeyi yapmak benim için en önemli ilkedir.", 1],["İnsanlarla güçlü bağlar kurmak ve onlara destek olmak beni mutlu eder.", 2],["Başarılı ve etkili olmak, takdir görmek beni motive eder.", 3],["Kendi özgün sesimi bulmak ve gerçek benliğimi yaşamak isterim.", 4]] },
+  { text: "Bir hata yaptığınızda içinizde ilk ne hissedersiniz?", opts: [["Kendimi eleştiririm; daha iyi yapabilirdim diye düşünürüm.", 1],["Başkalarını hayal kırıklığına uğratmış olabileceğimi düşünüp üzülürüm.", 2],["Hızla nasıl telafi edebileceğimi düşünürüm; imajıma etkisini de dikkate alırım.", 3],["Kendimi uzun süre sorgulamam; hata neydi, nasıl önlerim diye düşünürüm.", 5]] },
+  { text: "Bir lider konumundasınız. En belirgin yönetim tarzınız nedir?", opts: [["Ekibimi korur, destekler ve güçlü kararlar alırım.", 8],["Herkesi bir arada tutar, uyumu koruyarak ilerlemeye çalışırım.", 9],["Net hedefler koyar, verimliliği ve başarıyı merkeze alırım.", 3],["Katı kurallara uymayı ve standartları yüksek tutmayı isterim.", 1]] },
+  { text: "Bir karar vermeniz gerekiyor ancak yeterli bilginiz yok. Ne yaparsınız?", opts: [["Daha fazla araştırırım; yeterli bilgiye ulaşmadan karar veremem.", 5],["Güvendiğim birine danışırım; onaylama ve destek isterim.", 6],["Seçenekleri hızla değerlendirir, en iyimser senaryoya göre hareket ederim.", 7],["Uzun süre beklemem; elimdeki bilgiyle harekete geçerim.", 8]] },
+  { text: "Birisi sizi eleştirdiğinde nasıl tepki verirsiniz?", opts: [["Eleştiriyi dikkate alırım ama içimde savunmacı bir his de uyanır.", 1],["Çok üzülürüm; onun gözünde nasıl göründüğüm önemlidir.", 2],["Hemen düzeltici adım atmayı düşünürüm, başarı imajım zarar görmesin.", 3],["Yorumun doğru olup olmadığını uzun süre zihnimde tartarım.", 4]] },
+  { text: "İlişkilerinizde en çok önem verdiğiniz şey nedir?", opts: [["Sadakat ve güven; yanımda olacağını bilmek.", 6],["Özgürlük ve eğlence; birlikte hayatı keşfetmek.", 7],["Dürüstlük ve güç; karşılıklı saygıya dayalı eşit ilişki.", 8],["Huzur ve uyum; kavgasız, sakin bir birliktelik.", 9]] },
+  { text: "Stres altında olduğunuzda kendinizi nasıl bulursunuz?", opts: [["Daha da mükemmeliyetçi olur, sürekli kontrol ederim.", 1],["İnsanlara daha fazla yaklaşır, onlardan onay ve destek ararım.", 2],["Daha da çok çalışır, başarıya odaklanarak dikkati oraya yönlendiririm.", 3],["İçe kapanır, yalnız kalmak ve düşünmek isterim.", 5]] },
+  { text: "Başkalarının size söylediği en sık şikayet nedir?", opts: [["Çok eleştirelsiniz / fazla kuralcısınız.", 1],["Sınırlarınız yok; kendinizi fazla veriyorsunuz.", 2],["Çok rekabetçisiniz / işkoliksiniz.", 3],["Aşırı duyarlısınız / dramatikleştiriyorsunuz.", 4]] },
+  { text: "Bir grup tartışmasında sessiz kalırsanız, bunun nedeni genellikle nedir?", opts: [["Yanlış bir şey söylemek istemem; önce düşünmem gerekiyor.", 6],["Konuya ilgim yok ya da çok daha heyecan verici bir şey düşünüyorum.", 7],["Herkesin söyleyeceğini zaten söyleyeceğini bilirim; gözlemlerim.", 5],["Herkesin fikrini duymak isterim; çatışma çıkmasın diye beklerim.", 9]] },
+  { text: "Hayal gücünüzde kendinizi nasıl görürsünüz?", opts: [["Adaletli, erdemli ve örnek bir birey olarak.", 1],["Güçlü, bağımsız ve koruyucu bir figür olarak.", 8],["Özgün, derinlikli ve eşsiz bir ruh olarak.", 4],["Bilge, yetkin ve kendi kendine yeten biri olarak.", 5]] },
+  { text: "Bir çatışma sona erdiğinde ne hissedersiniz?", opts: [["Rahatlarım; düzeni ve uyumu yeniden sağladım.", 9],["Kendi konumumun haklılığını teyit etmek isterim.", 8],["Kaybettiğim enerjiyi düşünüp hızla yeniden odaklanırım.", 3],["Çatışmanın yarattığı gerilim bende uzun süre kalır.", 6]] },
+  { text: "Kendinize en uzak hissettiğiniz an hangisi?", opts: [["Her şeyin mükemmel olmadığını kabul etmek zorunda kaldığımda.", 1],["Kimsenin benim kadar önemsemediğini hissettiğimde.", 2],["Başarısız olduğumda ya da başkaları önünde küçük düştüğümde.", 3],["Kendimi sıradan ya da anlamsız hissettiğimde.", 4]] },
+  { text: "Bir yabancıyla ilk tanışmada genellikle ne olur?", opts: [["Güven duyup duymadığımı anlamaya çalışırım; temkinli davranırım.", 6],["Heyecanla konuşmaya başlarım; yeni insanlar beni canlandırır.", 7],["Onu gözlemlerim; ne kadar alan bırakacağını anlamak isterim.", 5],["Karşımdakinin güçlü mü yoksa zayıf mı olduğunu sezmeye çalışırım.", 8]] },
+  { text: "Başkalarına yardım etmek söz konusu olduğunda hangi ifade size daha yakın?", opts: [["Yardım ederim çünkü ihtiyaç duyanı görmezden gelemem.", 2],["Yardım ederim ama kendi alanımı korumak önemlidir.", 5],["Yardım ederim; birlik ve uyum beni mutlu eder.", 9],["Yardım ederim; doğru olan bu, sorumluluk almak gerekir.", 1]] },
+  { text: "Sabah uyandığınızda aklınıza gelen ilk şey genellikle ne olur?", opts: [["Bugün ne yapmalıyım, planım ne?", 3],["Bugün güvende miyim, her şey yolunda mı?", 6],["Bugün ne heyecan verici şeyler yapabilirim?", 7],["Dün ne hissettim, bugün nasıl hissedeceğim?", 4]] },
+  { text: "Hayatınızdaki en büyük korku hangisine daha yakın?", opts: [["Hatalı ya da kötü biri olmak.", 1],["Sevilmemek ve reddedilmek.", 2],["Başarısız olmak ve değersiz görünmek.", 3],["Kimliksiz ve sıradan biri olmak.", 4]] }
+];
+
+const typeInfo = {
+  1: { name: "Tip 1 — Reformcu", color: "#534AB7", desc: "Doğru olanı yapmak sizin için vazgeçilmezdir. Mükemmeliyetçi, prensipli ve sorumluluk duygusu yükseksinizdir. Temel arzunuz tam, iyi ve erdemli biri olmak; temel korkunuz ise hatalı ya da yozlaşmış görünmektir." },
+  2: { name: "Tip 2 — Yardımsever", color: "#378ADD", desc: "İnsanlara destek olmak ve sevgi göstermek sizi besler. Fedakâr, ilişki odaklı ve başkalarının ihtiyaçlarına karşı oldukça duyarlısınızdır. Temel arzunuz sevilmek ve ihtiyaç duyulmak; temel korkunuz reddedilmek ve sevilmemektir." },
+  3: { name: "Tip 3 — Başaran", color: "#1D9E75", desc: "Başarı ve etkileyicilik sizin için merkezi öneme sahiptir. Hedef odaklı, enerjik ve rekabetçisinizdir. Temel arzunuz hayran olunan ve takdir edilen biri olmak; temel korkunuz başarısızlık ve değersizliktir." },
+  4: { name: "Tip 4 — Bireyci", color: "#D85A30", desc: "Özgünlük ve duygusal derinlik sizin için hayati önem taşır. Yaratıcı, empatik ve anlam arayan bir yapınız var. Temel arzunuz kendi olup bireyselliğinizi özgürce yaşamak; temel korkunuz sıradan ve kimliksiz kalmaktır." },
+  5: { name: "Tip 5 — Araştırmacı", color: "#0F6E56", desc: "Bilgi ve yetkinlik sizin için güvenlik kaynağıdır. Gözlemci, analitik ve bağımsızlığa önem veren bir yapınız var. Temel arzunuz yeterli, bilgili ve kendi kendine yeten biri olmak; temel korkunuz yetersiz ve bilgisiz görünmektir." },
+  6: { name: "Tip 6 — Sadık Şüpheci", color: "#BA7517", desc: "Güvenlik ve sadakat sizin için temel önceliktir. Sorumlu, öngörülü ve olası risklere karşı uyanık bir yapınız var. Temel arzunuz güvende olmak ve destek bulmak; temel korkunuz desteksiz ve rehbersiz kalmaktır." },
+  7: { name: "Tip 7 — Maceracı", color: "#c9a227", desc: "Özgürlük, keyif ve yeni deneyimler sizi hayata bağlar. İyimser, enerjik ve meraklı bir yapınız var. Temel arzunuz keyif alabileceğiniz, renkli bir hayat yaşamak; temel korkunuz acı ve kısıtlılık içinde sıkışmaktır." },
+  8: { name: "Tip 8 — Meydan Okuyan", color: "#993556", desc: "Güç, bağımsızlık ve kontrol sizin için kritik öneme sahiptir. Kararlı, koruyucu ve doğrudan bir yapınız var. Temel arzunuz güçlü, etkin ve bağımsız olmak; temel korkunuz kontrol edilmek ve zayıf görünmektir." },
+  9: { name: "Tip 9 — Barışçı", color: "#6b3fa0", desc: "Uyum, huzur ve çatışmadan uzak bir ortam sizin için vazgeçilmezdir. Sabırlı, arabulucu ve empatik bir yapınız var. Temel arzunuz sakin ve uyum içinde bir hayat yaşamak; temel korkunuz dışlanmak ve gerilim yaşamaktır." }
+};
+
+let current = 0;
+let answers = new Array(20).fill(null);
+
+function render() {
+  const q = questions[current];
+  document.getElementById('qCounter').textContent = `${current + 1} / 20`;
+  document.getElementById('progressFill').style.width = `${((current + 1) / 20) * 100}%`;
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  void card.offsetHeight;
+  card.style.animation = 'fadeUp 0.32s ease';
+  document.getElementById('qText').textContent = q.text;
+  const wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn' + (answers[current] === i ? ' selected' : '');
+    btn.textContent = opt[0];
+    btn.onclick = () => {
+      answers[current] = i;
+      document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('nextBtn').disabled = false;
+    };
+    wrap.appendChild(btn);
+  });
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = answers[current] === null;
+  document.getElementById('nextBtn').textContent = current === 19 ? 'Sonuçları Gör →' : 'Devam →';
+}
+
+function prevQ() { if (current > 0) { current--; render(); } }
+
+function nextQ() {
+  if (current < 19) { current++; render(); }
+  else { showResult(); }
+}
+
+function showResult() {
+  const scores = {};
+  for (let i = 1; i <= 9; i++) scores[i] = 0;
+  questions.forEach((q, qi) => { if (answers[qi] !== null) scores[q.opts[answers[qi]][1]]++; });
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const topTip = parseInt(sorted[0][0]);
+  const maxScore = sorted[0][1];
+  const info = typeInfo[topTip];
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('resultSection').style.display = 'block';
+  document.getElementById('resultTipName').textContent = info.name;
+  document.getElementById('resultDesc').textContent = info.desc;
+  const barsEl = document.getElementById('scoresBars');
+  barsEl.innerHTML = '';
+  sorted.forEach(([tip, sc]) => {
+    const pct = maxScore > 0 ? Math.round((sc / maxScore) * 100) : 0;
+    const color = typeInfo[parseInt(tip)].color;
+    const row = document.createElement('div');
+    row.className = 'score-row';
+    row.innerHTML = `<span class="score-label">Tip ${tip}</span><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div></div><span class="score-num">${sc}</span>`;
+    barsEl.appendChild(row);
+  });
+  setTimeout(() => { document.querySelectorAll('.score-bar-fill').forEach(b => { b.style.width = b.dataset.pct + '%'; }); }, 100);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  current = 0;
+  answers = new Array(20).fill(null);
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'block';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
